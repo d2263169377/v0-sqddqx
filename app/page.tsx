@@ -152,7 +152,7 @@ export default function PowerGridAssistant() {
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-tech-blue/10 text-tech-blue mb-4">
                   <Sparkles className="w-4 h-4" />
                   <span className="text-sm font-medium">
-                    {mode === "assistant" ? "缺陷处置助手" : "模拟演练模式"}
+                    {mode === "assistant" ? "缺陷处置" : "模拟演练模式"}
                   </span>
                 </div>
                 <h2 className="text-2xl font-semibold text-foreground mb-2">

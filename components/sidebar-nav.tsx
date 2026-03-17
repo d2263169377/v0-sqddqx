@@ -25,7 +25,7 @@ const navItems = [
   {
     mode: "assistant" as Mode,
     icon: AlertTriangle,
-    label: "缺陷处置助手",
+    label: "缺陷处置",
     description: "智能辅助缺陷分析与处置",
   },
   {
