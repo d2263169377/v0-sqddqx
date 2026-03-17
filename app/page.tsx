@@ -79,6 +79,7 @@ const drillMessages: Message[] = [
           { id: "c", code: "C", label: "联系通信班检修光纤通道" },
           { id: "d", code: "D", label: "申请线路停电检修" },
         ],
+        correctAnswers: ["a", "b", "c"],
       },
     },
   },
@@ -118,9 +119,14 @@ export default function PowerGridAssistant() {
     setInputValue("")
   }
 
-  const handleOperationSubmit = (selected: string[]) => {
-    console.log("Selected operations:", selected)
-    // In a real app, this would process the selection
+  const handleOperationSubmit = (selected: string[], isCorrect: boolean) => {
+    console.log("Selected operations:", selected, "Correct:", isCorrect)
+    // In a real app, this would process the selection and update scores
+  }
+
+  const handleNextStep = () => {
+    // In a real app, this would load the next operation question
+    console.log("Proceeding to next step")
   }
 
   const handleEndDrill = () => {
@@ -176,7 +182,9 @@ export default function PowerGridAssistant() {
                       options={
                         message.card.data.options as { id: string; code: string; label: string }[]
                       }
+                      correctAnswers={message.card.data.correctAnswers as string[]}
                       onSubmit={handleOperationSubmit}
+                      onNext={handleNextStep}
                     />
                   )}
                 </ChatMessage>
