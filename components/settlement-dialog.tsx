@@ -1,6 +1,6 @@
 "use client"
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Button } from "@/components/ui/button"
 import { AlertCircle, Trophy, X } from "lucide-react"
@@ -42,6 +42,9 @@ export function SettlementDialog({
             <Trophy className="w-6 h-6 text-warning-orange" />
             演练结算报告
           </DialogTitle>
+          <DialogDescription className="sr-only">
+            显示本次模拟演练的能力分析雷达图和违章扣分详情
+          </DialogDescription>
         </DialogHeader>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-4">
