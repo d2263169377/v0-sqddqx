@@ -41,6 +41,8 @@ const assistantMessages: Message[] = [
       type: "defect-report",
       data: {
         defectLevel: "紧急",
+        defectContent:
+          "110kV某变电站I母差动保护装置（型号：RCS-915AB）在2024年3月15日14:32分发生动作，保护动作报告显示差动电流越限，动作时间0.02s，跳闸I母所有进出线开关。",
         defectImpact:
           "110kV某变电站I母差动保护装置在运行中发生误动作，导致I母所带负荷全部转供。当前II母供电正常，但失去冗余供电能力，若II母发生故障将造成全站失压。",
         dispatchMeasure:
@@ -177,6 +179,7 @@ export default function PowerGridAssistant() {
                   {message.card?.type === "defect-report" && (
                     <DefectReportCard
                       defectLevel={message.card.data.defectLevel as string}
+                      defectContent={message.card.data.defectContent as string}
                       defectImpact={message.card.data.defectImpact as string}
                       dispatchMeasure={message.card.data.dispatchMeasure as string}
                     />
