@@ -8,7 +8,8 @@ import {
   Settings, 
   Zap,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Plus
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
@@ -19,7 +20,15 @@ type Mode = "assistant" | "drill"
 interface SidebarNavProps {
   currentMode: Mode
   onModeChange: (mode: Mode) => void
+  onNewChat?: () => void
 }
+
+// 静态对话历史数据
+const chatHistory = [
+  { id: "1", title: "国园站故障分析" },
+  { id: "2", title: "110kV送电方案" },
+  { id: "3", title: "母线保护动作处置" },
+]
 
 const navItems = [
   {
@@ -36,7 +45,7 @@ const navItems = [
   },
 ]
 
-export function SidebarNav({ currentMode, onModeChange }: SidebarNavProps) {
+export function SidebarNav({ currentMode, onModeChange, onNewChat }: SidebarNavProps) {
   const [collapsed, setCollapsed] = useState(false)
 
   return (
@@ -62,8 +71,36 @@ export function SidebarNav({ currentMode, onModeChange }: SidebarNavProps) {
           )}
         </div>
 
+        {/* New Chat Button */}
+        <div className="p-3 border-b border-sidebar-border">
+          {collapsed ? (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  onClick={onNewChat}
+                  variant="outline"
+                  size="icon"
+                  className="w-full border-tech-blue/50 text-tech-blue hover:bg-tech-blue/10"
+                >
+                  <Plus className="w-4 h-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="right">发起新对话</TooltipContent>
+            </Tooltip>
+          ) : (
+            <Button
+              onClick={onNewChat}
+              variant="outline"
+              className="w-full border-tech-blue/50 text-tech-blue hover:bg-tech-blue/10"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              发起新对话
+            </Button>
+          )}
+        </div>
+
         {/* Navigation */}
-        <nav className="flex-1 p-3 space-y-1">
+        <nav className="p-3 space-y-1 border-b border-sidebar-border">
           {navItems.map((item) => {
             const Icon = item.icon
             const isActive = currentMode === item.mode
@@ -103,6 +140,26 @@ export function SidebarNav({ currentMode, onModeChange }: SidebarNavProps) {
             return <div key={item.mode}>{button}</div>
           })}
         </nav>
+
+        {/* Chat History */}
+        <div className="flex-1 overflow-y-auto">
+          {!collapsed && (
+            <div className="px-3 py-2">
+              <p className="text-xs text-muted-foreground mb-2 px-2">历史对话</p>
+              <div className="space-y-1">
+                {chatHistory.map((chat) => (
+                  <div
+                    key={chat.id}
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50 cursor-pointer transition-colors"
+                  >
+                    <MessageSquare className="w-4 h-4 shrink-0" />
+                    <span className="truncate">{chat.title}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* Footer */}
         <div className="p-3 border-t border-sidebar-border">
