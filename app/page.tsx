@@ -11,7 +11,7 @@ import { SettlementDialog } from "@/components/settlement-dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Send, Sparkles } from "lucide-react"
+import { Send, Sparkles, Paperclip, ChevronDown } from "lucide-react"
 
 type Mode = "assistant" | "drill"
 
@@ -133,10 +133,16 @@ export default function PowerGridAssistant() {
     setSettlementOpen(true)
   }
 
+  const handleNewChat = () => {
+    // Reset conversation - in a real app this would clear the chat
+    setInputValue("")
+    console.log("Starting new conversation")
+  }
+
   return (
     <div className="flex h-screen bg-background">
       {/* Sidebar */}
-      <SidebarNav currentMode={mode} onModeChange={setMode} />
+      <SidebarNav currentMode={mode} onModeChange={setMode} onNewChat={handleNewChat} />
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
@@ -210,7 +216,35 @@ export default function PowerGridAssistant() {
         {/* Input Area */}
         <div className="border-t border-border bg-card/50 p-4">
           <div className="max-w-3xl mx-auto">
+            {/* Quick Action Buttons */}
+            <div className="flex items-center gap-2 mb-3">
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-border/50 text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+              >
+                生成周报
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-border/50 text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+              >
+                生成月报
+              </Button>
+            </div>
+            
+            {/* Input Row */}
             <div className="flex items-center gap-3">
+              {/* Attachment Button */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="text-muted-foreground hover:text-foreground shrink-0"
+              >
+                <Paperclip className="w-5 h-5" />
+              </Button>
+              
               <Input
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
@@ -220,6 +254,17 @@ export default function PowerGridAssistant() {
                 }
                 className="flex-1 bg-secondary/50 border-border/50 focus-visible:ring-tech-blue"
               />
+              
+              {/* Model Selector Button */}
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-muted-foreground hover:text-foreground shrink-0 gap-1"
+              >
+                <span className="text-xs">GPT-4</span>
+                <ChevronDown className="w-4 h-4" />
+              </Button>
+              
               <Button
                 onClick={handleSendMessage}
                 disabled={!inputValue.trim()}
