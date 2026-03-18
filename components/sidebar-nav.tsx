@@ -99,26 +99,8 @@ export function SidebarNav({ currentMode, onModeChange, onNewChat }: SidebarNavP
           )}
         </div>
 
-        {/* Chat History */}
-        {!collapsed && (
-          <div className="px-3 py-2 border-b border-sidebar-border">
-            <p className="text-xs text-muted-foreground mb-2 px-2">历史对话</p>
-            <div className="space-y-1">
-              {chatHistory.map((chat) => (
-                <div
-                  key={chat.id}
-                  className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50 cursor-pointer transition-colors"
-                >
-                  <MessageSquare className="w-4 h-4 shrink-0" />
-                  <span className="truncate">{chat.title}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
         {/* Navigation */}
-        <nav className="flex-1 p-3 space-y-1">
+        <nav className="p-3 space-y-1 border-b border-sidebar-border">
           {navItems.map((item) => {
             const Icon = item.icon
             const isActive = currentMode === item.mode
@@ -158,6 +140,26 @@ export function SidebarNav({ currentMode, onModeChange, onNewChat }: SidebarNavP
             return <div key={item.mode}>{button}</div>
           })}
         </nav>
+
+        {/* Chat History */}
+        <div className="flex-1 overflow-y-auto">
+          {!collapsed && (
+            <div className="px-3 py-2">
+              <p className="text-xs text-muted-foreground mb-2 px-2">历史对话</p>
+              <div className="space-y-1">
+                {chatHistory.map((chat) => (
+                  <div
+                    key={chat.id}
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50 cursor-pointer transition-colors"
+                  >
+                    <MessageSquare className="w-4 h-4 shrink-0" />
+                    <span className="truncate">{chat.title}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* Footer */}
         <div className="p-3 border-t border-sidebar-border">
