@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils"
 
 interface DefectReportCardProps {
   defectLevel: string
+  defectContent: string
   defectImpact: string
   dispatchMeasure: string
 }
@@ -22,13 +23,15 @@ const defectLevelOptions = [
 ]
 
 export function DefectReportCard({ 
-  defectLevel: initialLevel, 
+  defectLevel: initialLevel,
+  defectContent: initialContent,
   defectImpact: initialImpact, 
   dispatchMeasure: initialMeasure 
 }: DefectReportCardProps) {
   const [isEditing, setIsEditing] = useState(false)
   const [isConfirmed, setIsConfirmed] = useState(false)
   const [defectLevel, setDefectLevel] = useState(initialLevel)
+  const [defectContent, setDefectContent] = useState(initialContent)
   const [defectImpact, setDefectImpact] = useState(initialImpact)
   const [dispatchMeasure, setDispatchMeasure] = useState(initialMeasure)
 
@@ -113,6 +116,26 @@ export function DefectReportCard({
             <Badge variant="outline" className={cn("font-medium", getLevelBadgeClass(defectLevel))}>
               {defectLevel}
             </Badge>
+          )}
+        </div>
+
+        {/* Defect Content */}
+        <div className="space-y-2">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <AlertTriangle className="w-4 h-4" />
+            缺陷内容
+          </div>
+          {isEditing ? (
+            <Textarea
+              value={defectContent}
+              onChange={(e) => setDefectContent(e.target.value)}
+              className="min-h-[80px] bg-secondary/50 border-border/50 resize-none"
+              placeholder="描述缺陷内容..."
+            />
+          ) : (
+            <p className="text-sm text-foreground/90 bg-secondary/30 rounded-lg p-3">
+              {defectContent}
+            </p>
           )}
         </div>
 
