@@ -2,6 +2,8 @@
 
 import { cn } from "@/lib/utils"
 import { 
+  AlertTriangle, 
+  GraduationCap, 
   MessageSquare, 
   Settings, 
   Zap,
@@ -13,7 +15,11 @@ import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useState } from "react"
 
+type Mode = "assistant" | "drill"
+
 interface SidebarNavProps {
+  currentMode: Mode
+  onModeChange: (mode: Mode) => void
   onNewChat?: () => void
 }
 
@@ -24,7 +30,22 @@ const chatHistory = [
   { id: "3", title: "母线保护动作处置" },
 ]
 
-export function SidebarNav({ onNewChat }: SidebarNavProps) {
+const navItems = [
+  {
+    mode: "assistant" as Mode,
+    icon: AlertTriangle,
+    label: "缺陷处置",
+    description: "智能辅助缺陷分析与处置",
+  },
+  {
+    mode: "drill" as Mode,
+    icon: GraduationCap,
+    label: "模拟演练",
+    description: "故障场景模拟与考核",
+  },
+]
+
+export function SidebarNav({ currentMode, onModeChange, onNewChat }: SidebarNavProps) {
   const [collapsed, setCollapsed] = useState(false)
 
   return (
@@ -77,6 +98,48 @@ export function SidebarNav({ onNewChat }: SidebarNavProps) {
             </Button>
           )}
         </div>
+
+        {/* Navigation */}
+        <nav className="p-3 space-y-1 border-b border-sidebar-border">
+          {navItems.map((item) => {
+            const Icon = item.icon
+            const isActive = currentMode === item.mode
+
+            const button = (
+              <button
+                onClick={() => onModeChange(item.mode)}
+                className={cn(
+                  "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200",
+                  isActive
+                    ? "bg-sidebar-primary/20 text-sidebar-primary"
+                    : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50"
+                )}
+              >
+                <Icon className={cn("w-5 h-5 shrink-0", isActive && "text-tech-blue")} />
+                {!collapsed && (
+                  <div className="text-left overflow-hidden">
+                    <p className="text-sm font-medium truncate">{item.label}</p>
+                    <p className="text-xs text-muted-foreground truncate">{item.description}</p>
+                  </div>
+                )}
+              </button>
+            )
+
+            if (collapsed) {
+              return (
+                <Tooltip key={item.mode}>
+                  <TooltipTrigger asChild>{button}</TooltipTrigger>
+                  <TooltipContent side="right" className="bg-popover text-popover-foreground">
+                    <p className="font-medium">{item.label}</p>
+                    <p className="text-xs text-muted-foreground">{item.description}</p>
+                  </TooltipContent>
+                </Tooltip>
+              )
+            }
+
+            return <div key={item.mode}>{button}</div>
+          })}
+        </nav>
 
         {/* Chat History */}
         <div className="flex-1 overflow-y-auto">

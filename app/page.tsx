@@ -11,7 +11,7 @@ import { SettlementDialog } from "@/components/settlement-dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Send, Sparkles, Paperclip, ChevronDown, AlertTriangle, GraduationCap } from "lucide-react"
+import { Send, Sparkles, Paperclip, ChevronDown } from "lucide-react"
 
 type Mode = "assistant" | "drill"
 
@@ -144,7 +144,7 @@ export default function PowerGridAssistant() {
   return (
     <div className="flex h-screen bg-background">
       {/* Sidebar */}
-      <SidebarNav onNewChat={handleNewChat} />
+      <SidebarNav currentMode={mode} onModeChange={setMode} onNewChat={handleNewChat} />
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
@@ -220,39 +220,7 @@ export default function PowerGridAssistant() {
         <div className="border-t border-border bg-card/50 p-4">
           <div className="max-w-3xl mx-auto">
             {/* Quick Action Buttons */}
-            <div className="flex items-center gap-2 mb-3 flex-wrap">
-              {/* Mode Switching Buttons */}
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setMode("assistant")}
-                className={
-                  mode === "assistant"
-                    ? "border-tech-blue bg-tech-blue/10 text-tech-blue hover:bg-tech-blue/20"
-                    : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-secondary/50"
-                }
-              >
-                <AlertTriangle className="w-4 h-4 mr-1" />
-                缺陷处置
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setMode("drill")}
-                className={
-                  mode === "drill"
-                    ? "border-tech-blue bg-tech-blue/10 text-tech-blue hover:bg-tech-blue/20"
-                    : "border-border/50 text-muted-foreground hover:text-foreground hover:bg-secondary/50"
-                }
-              >
-                <GraduationCap className="w-4 h-4 mr-1" />
-                模拟演练
-              </Button>
-              
-              {/* Divider */}
-              <div className="w-px h-5 bg-border/50 mx-1" />
-              
-              {/* Report Buttons */}
+            <div className="flex items-center gap-2 mb-3">
               <Button
                 variant="outline"
                 size="sm"
